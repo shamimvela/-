@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فرم ثبت‌نام همایش پیاده‌روی</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>فرم ثبت‌نام همایش پیاده‌روی</h2>
+    <form id="registrationForm">
+        <label for="fullName">نام و نام خانوادگی:</label>
+        <input type="text" id="fullName" required>
+
+        <label for="fatherName">نام پدر:</label>
+        <input type="text" id="fatherName" required>
+
+        <label for="nationalID">کد ملی:</label>
+        <input type="number" id="nationalID" required>
+
+        <label for="phoneNumber">شماره موبایل:</label>
+        <input type="number" id="phoneNumber" required>
+
+        <button type="submit">ثبت‌نام</button>
+
+        <div class="error" id="errorMessage">کد ملی وارد شده قبلاً ثبت شده است.</div>
+    </form>
+</div>
+
+<script>
+    // ذخیره موقت کدهای ملی برای جلوگیری از تکراری بودن
+    const existingNationalIDs = new Set(); 
+
+    // دریافت فرم و المان‌های مختلف
+    const form = document.getElementById('registrationForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const nationalIDInput = document.getElementById('nationalID');
+
+    // عملکرد فرم برای ارسال
+    form.onsubmit = function(event) {
+        event.preventDefault(); // جلوگیری از ارسال فرم
+
+        const nationalID = nationalIDInput.value.trim();
+
+        // بررسی تکراری بودن کد ملی
+        if (existingNationalIDs.has(nationalID)) {
+            errorMessage.style.display = 'block';  // نمایش پیام خطا
+        } else {
+            // اگر کد ملی تکراری نباشد، آن را به مجموعه اضافه کنید
+            existingNationalIDs.add(nationalID);
+            alert('فرم با موفقیت ثبت شد!');
+            form.reset(); // پاک کردن فرم بعد از ارسال
+            errorMessage.style.display = 'none';  // مخفی کردن پیام خطا
+        }
+    };
+</script>
+
+</body>
+</html>
